@@ -14,9 +14,13 @@ declare(strict_types=1);
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
+use App\Model\Entity\Game;
+use App\Model\Entity\User;
 use Cake\Controller\Controller;
+use Cake\Event\EventInterface;
 
 /**
  * Application Controller
@@ -25,9 +29,20 @@ use Cake\Controller\Controller;
  * will inherit them.
  *
  * @link https://book.cakephp.org/4/en/controllers.html#the-app-controller
+ * @property \App\Model\Table\UsersTable $Users
+ * @property \App\Model\Table\GamesTable $Games
  */
 class AppController extends Controller
 {
+    /**
+     * @var User|null
+     */
+    protected $user;
+    /**
+     * @var Game|\Cake\Datasource\RepositoryInterface|null
+     */
+    protected $game;
+
     /**
      * Initialization hook method.
      *
@@ -44,10 +59,48 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
 
-        /*
-         * Enable the following component for recommended CakePHP form protection settings.
-         * see https://book.cakephp.org/4/en/controllers/components/form-protection.html
-         */
-        //$this->loadComponent('FormProtection');
+        $this->loadComponent('FormProtection');
+        $this->loadModel('Users');
+        $this->loadModel('Games');
+    }
+
+    public function beforeFilter(EventInterface $event)
+    {
+        parent::beforeFilter($event);
+        $this->user = $this->getUser();
+        $this->game = $this->getGame();
+
+        if (is_null($this->user) && !$this->isSetup()) {
+            return $this->redirect(['controller' => 'Users', 'action' => 'add']);
+        }
+        if (is_null($this->game) && !$this->isSetup()) {
+            return $this->redirect(['controller' => 'Games', 'action' => 'add']);
+        }
+
+        $this->set('user', $this->user);
+        $this->set('game', $this->game);
+    }
+
+    private function getUser(): ?User
+    {
+        $userId = $this->getRequest()->getCookie('user_id');
+        if ($userId) {
+            return $this->Users->get((int)$userId);
+        }
+        return null;
+    }
+
+    private function getGame(): ?Game
+    {
+        $gameId = $this->getRequest()->getCookie('game_id');
+        if ($gameId) {
+            return $this->Games->get((int)$gameId, ['contain' => ['Rounds.Bets']]);
+        }
+        return null;
+    }
+
+    private function isSetup(): bool
+    {
+        return in_array($this->getRequest()->getParam('controller'), ['Users', 'Games']);
     }
 }

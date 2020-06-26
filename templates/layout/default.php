@@ -1,20 +1,15 @@
 <?php
 /**
- * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link          https://cakephp.org CakePHP(tm) Project
- * @since         0.10.0
- * @license       https://opensource.org/licenses/mit-license.php MIT License
- * @var \App\View\AppView $this
+ * @var AppView $this
+ * @var User|null $user
+ * @var Game|null $game
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
+use App\Model\Entity\Game;
+use App\Model\Entity\Round;
+use App\Model\Entity\User;
+use App\View\AppView;
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -22,12 +17,12 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
-        <?= $cakeDescription ?>:
+        StrategicGame:
         <?= $this->fetch('title') ?>
     </title>
     <?= $this->Html->meta('icon') ?>
 
-    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css">
 
     <?= $this->Html->css('milligram.min.css') ?>
@@ -36,24 +31,34 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
+
+    <script defer src="./js/<?= $this->Html->versionedUrl('main.js') ?>" charset="utf-8"></script>
+    <script defer src="./js/<?= $this->Html->versionedUrl('vendors~main.js') ?>" charset="utf-8"></script>
 </head>
 <body>
-    <nav class="top-nav">
-        <div class="top-nav-title">
-            <a href="/"><span>Cake</span>PHP</a>
-        </div>
-        <div class="top-nav-links">
-            <a target="_blank" href="https://book.cakephp.org/4/">Documentation</a>
-            <a target="_blank" href="https://api.cakephp.org/4/">API</a>
-        </div>
-    </nav>
-    <main class="main">
-        <div class="container">
-            <?= $this->Flash->render() ?>
-            <?= $this->fetch('content') ?>
-        </div>
-    </main>
-    <footer>
-    </footer>
+<nav class="top-nav">
+    <div class="top-nav-title">
+        <a href="/">Strategic<span>Game</span></a>
+    </div>
+    <div class="top-nav-links">
+        <?php
+        if ($game) {
+            echo min(count($game->rounds) + 1, Round::MAX) . '/' . Round::MAX;
+            echo $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout']);
+            echo $this->Html->link('Previous games', ['controller' => 'Games', 'action' => 'index']);
+        }
+        ?>
+        <a target="_blank" href="https://book.cakephp.org/4/">New game</a>
+        <a target="_blank" href="https://api.cakephp.org/4/">API</a>
+    </div>
+</nav>
+<main class="main">
+    <div class="container">
+        <?= $this->Flash->render() ?>
+        <?= $this->fetch('content') ?>
+    </div>
+</main>
+<footer>
+</footer>
 </body>
 </html>
