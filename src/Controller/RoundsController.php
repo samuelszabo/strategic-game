@@ -77,6 +77,7 @@ class RoundsController extends AppController
             $this->Flash->error(__('The round could not be saved. Please, try again.'));
         }
         $this->set(compact('round'));
+
         return null;
     }
 }
