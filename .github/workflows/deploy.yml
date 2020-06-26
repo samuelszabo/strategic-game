@@ -14,7 +14,7 @@ jobs:
       - name: Setup config
         run: |
           mv config/app_local.aws.php config/app_local.php
-          export VERSION_LABEL=(date "+%y%m%d-%H%M")
+          export VERSION_LABEL="date '+%y%m%d-%H%M'"
       - name: Generate deployment package
         run: zip deploy.zip -r * .[^.]* -x "vendor/*"
 
