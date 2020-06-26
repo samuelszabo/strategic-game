@@ -11,6 +11,9 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v2
 
+      - name: Setup config
+        run: mv config/app_local.aws.php config/app_local.php
+
       - name: Generate deployment package
         run: zip deploy.zip -r * .[^.]* -x "vendor/*"
 
