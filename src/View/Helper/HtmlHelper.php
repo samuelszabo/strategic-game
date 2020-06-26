@@ -21,7 +21,11 @@ class HtmlHelper extends \Cake\View\Helper\HtmlHelper
             $manifestFile = ROOT . DS . 'webroot' . DS . 'js' . DS . 'manifest.json';
 
             if (file_exists($manifestFile)) {
-                $manifest = json_decode(file_get_contents($manifestFile), true);
+                $content = file_get_contents($manifestFile);
+                if ($content === false) {
+                    throw new \Exception('Manifest file load failed');
+                }
+                $manifest = json_decode($content, true);
             } else {
                 Log::error("Failed to load manifest.json file (looking for it here: {$manifestFile})" .
                     ", assets will not be versioned");

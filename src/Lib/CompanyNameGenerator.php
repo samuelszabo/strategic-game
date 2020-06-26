@@ -25,6 +25,7 @@ class CompanyNameGenerator
     {
         $names = [];
         for ($i = 1; $i <= $number; $i++) {
+            /** @phpstan-ignore-next-line */
             $names[] = $this->faker->companyName;
         }
 

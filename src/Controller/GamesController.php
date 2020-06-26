@@ -7,6 +7,7 @@ use App\Lib\CompanyNameGenerator;
 use App\Model\Entity\Game;
 use Cake\Event\EventInterface;
 use Cake\Http\Cookie\Cookie;
+use Cake\Http\Response;
 use DateTime;
 
 /**
@@ -34,10 +35,11 @@ class GamesController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return void Renders view
      */
-    public function index()
+    public function index(): void
     {
+        assert(!is_null($this->user));
         $games = $this->Games->find()
             ->contain(['Users'])->where(['rounds_count' => count(Game::$tables)])->orderDesc('points')
             ->limit(10);
@@ -53,10 +55,9 @@ class GamesController extends AppController
      * View method
      *
      * @param string|null $id Game id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return void Renders view
      */
-    public function view($id = null)
+    public function view($id = null): void
     {
         $game = $this->Games->get($id, ['contain' => ['Users', 'Rounds'],]);
 
@@ -66,9 +67,9 @@ class GamesController extends AppController
     /**
      * Add method
      *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add(): ?Response
     {
         $game = $this->Games->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -94,11 +95,14 @@ class GamesController extends AppController
         $companyNames = $generator->generate(3);
 
         $this->set(compact('game', 'companyNames'));
+
+        return null;
     }
 
-    public function reset()
+    public function reset(): ?Response
     {
         $this->setResponse($this->response->withExpiredCookie(new Cookie('game_id')));
-        $this->redirect(['action' => 'add']);
+
+        return $this->redirect(['action' => 'add']);
     }
 }

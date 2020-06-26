@@ -33,7 +33,7 @@ class RoundsTable extends Table
     /**
      * Initialize method
      *
-     * @param array $config The configuration for the Table.
+     * @param array<mixed> $config The configuration for the Table.
      * @return void
      */
     public function initialize(array $config): void
@@ -79,7 +79,7 @@ class RoundsTable extends Table
         return $validator;
     }
 
-    public function afterSave(EventInterface $event, Round $round)
+    public function afterSave(EventInterface $event, Round $round): void
     {
         $game = $this->Games->get($round->game_id, ['contain' => ['Rounds.Bets']]);
         $game->rounds_count = count($game->rounds);

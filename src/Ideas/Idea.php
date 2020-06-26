@@ -18,10 +18,7 @@ abstract class Idea
     {
         $classname = static::class;
         $pos = strrpos($classname, '\\');
-        if ($pos) {
-            return substr($classname, $pos + 1);
-        }
 
-        return $pos;
+        return substr($classname, $pos + 1);
     }
 }

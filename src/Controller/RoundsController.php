@@ -6,6 +6,7 @@ namespace App\Controller;
 use Cake\Event\EventInterface;
 use Cake\Http\Cookie\Cookie;
 use Cake\Http\Exception\UnauthorizedException;
+use Cake\Http\Response;
 
 /**
  * Rounds Controller
@@ -26,9 +27,9 @@ class RoundsController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null|void Renders view
+     * @return void Renders view
      */
-    public function index()
+    public function index(): void
     {
     }
 
@@ -36,19 +37,20 @@ class RoundsController extends AppController
      * View method
      *
      * @param string|null $id Round id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return void Renders view
      */
-    public function view($id = null)
+    public function view($id = null): void
     {
         $round = $this->Rounds->get($id, [
             'contain' => ['Games', 'Bets'],
         ]);
 
+        assert(!is_null($this->user));
         if ($round->game->user_id != $this->user->id) {
             throw new UnauthorizedException('Wrong user');
         }
 
+        assert(!is_null($this->game));
         if (is_null($this->game->nextTable())) {
             $this->setResponse($this->response->withExpiredCookie(new Cookie('game_id')));
         }
@@ -59,10 +61,11 @@ class RoundsController extends AppController
     /**
      * Add method
      *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add(): ?Response
     {
+        assert(!is_null($this->game));
         $round = $this->Rounds->newEmptyEntity();
         if ($this->request->is('post')) {
             $round->game = $this->game;
@@ -74,5 +77,6 @@ class RoundsController extends AppController
             $this->Flash->error(__('The round could not be saved. Please, try again.'));
         }
         $this->set(compact('round'));
+        return null;
     }
 }

@@ -20,7 +20,7 @@ class Table2 implements TablesInterface
     }
 
     /**
-     * @return \App\Ideas\Idea1[]|array
+     * @return \App\Ideas\Idea[]
      */
     public function getIdeas(): array
     {

@@ -7,6 +7,9 @@ use Faker\Provider\Base;
 
 class FakerProvider extends Base
 {
+    /**
+     * @var array|string[]
+     */
     protected static array $techTerms = [
         'AddOn',
         'Algorithm',
@@ -155,6 +158,9 @@ class FakerProvider extends Base
         'Wire',
     ];
 
+    /**
+     * @var array|string[]
+     */
     protected static array $culinaryTerms = [
         'Appetit',
         'Bake',
@@ -311,22 +317,34 @@ class FakerProvider extends Base
         'Zest',
     ];
 
+    /**
+     * @var array|string[]
+     */
     protected static array $companyNameFormats = [
         '{{techTerm}}{{culinaryTerm}}',
         '{{techTerm}}{{techTerm}}',
         '{{culinaryTerm}}{{techTerm}}',
     ];
 
+    /**
+     * @return mixed|null
+     */
     public static function techTerm()
     {
         return static::randomElement(static::$techTerms);
     }
 
+    /**
+     * @return mixed|null
+     */
     public static function culinaryTerm()
     {
         return static::randomElement(static::$culinaryTerms);
     }
 
+    /**
+     * @return string
+     */
     public function companyName()
     {
         $format = static::randomElement(static::$companyNameFormats);

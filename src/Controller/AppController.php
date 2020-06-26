@@ -35,14 +35,8 @@ use Cake\I18n\I18n;
  */
 class AppController extends Controller
 {
-    /**
-     * @var \App\Model\Entity\User|null
-     */
-    protected $user;
-    /**
-     * @var \App\Model\Entity\Game|\Cake\Datasource\RepositoryInterface|null
-     */
-    protected $game;
+    protected ?User $user;
+    protected ?Game $game;
 
     /**
      * Initialization hook method.
@@ -93,6 +87,7 @@ class AppController extends Controller
     private function getUser(): ?User
     {
         $userId = $this->getRequest()->getCookie('user_id');
+        assert(is_string($userId));
         if ($userId) {
             return $this->Users->get((int)$userId);
         }
@@ -106,6 +101,7 @@ class AppController extends Controller
     private function getGame(): ?Game
     {
         $gameId = $this->getRequest()->getCookie('game_id');
+        assert(is_string($gameId));
         if ($gameId) {
             return $this->Games->get((int)$gameId, ['contain' => ['Rounds.Bets']]);
         }

@@ -28,7 +28,7 @@ class Bet extends Entity
      * be mass assigned. For security purposes, it is advised to set '*' to false
      * (or remove it), and explicitly make individual fields accessible as needed.
      *
-     * @var array
+     * @var array<string, bool>
      */
     protected $_accessible = [
         'round_id' => true,
@@ -41,6 +41,7 @@ class Bet extends Entity
 
     public function getIdea(): Idea
     {
+        assert(is_string($this->idea_name));
         $className = App::className($this->idea_name, 'Ideas');
 
         return new $className();

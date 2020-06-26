@@ -5,6 +5,12 @@ namespace App\View\Helper;
 
 class NumberHelper extends \Cake\View\Helper\NumberHelper
 {
+    /**
+     * @param float $number
+     * @param string|null $currency
+     * @param array<mixed> $options
+     * @return string
+     */
     public function currency($number, ?string $currency = null, array $options = []): string
     {
         $options += [
@@ -19,6 +25,12 @@ class NumberHelper extends \Cake\View\Helper\NumberHelper
         return parent::currency($number, $currency, $options);
     }
 
+    /**
+     * @param float|string $number
+     * @param int $precision
+     * @param array<mixed> $options
+     * @return string
+     */
     public function toPercentage($number, int $precision = 2, array $options = []): string
     {
         $precision = 0;

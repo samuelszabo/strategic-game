@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Http\Cookie\Cookie;
+use Cake\Http\Response;
 use DateTime;
 
 /**
@@ -14,12 +15,7 @@ use DateTime;
  */
 class UsersController extends AppController
 {
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|null|void Renders view
-     */
-    public function index()
+    public function index(): void
     {
         $users = $this->paginate($this->Users);
 
@@ -30,10 +26,9 @@ class UsersController extends AppController
      * View method
      *
      * @param string|null $id User id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return void Renders view
      */
-    public function view($id = null)
+    public function view($id = null): void
     {
         $user = $this->Users->get($id, [
             'contain' => ['Games'],
@@ -45,9 +40,9 @@ class UsersController extends AppController
     /**
      * Add method
      *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add(): ?Response
     {
         $user = $this->Users->newEmptyEntity();
         if ($this->request->is('post')) {
@@ -65,12 +60,14 @@ class UsersController extends AppController
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
         $this->set(compact('user'));
+        return null;
     }
 
-    public function logout()
+    public function logout(): ?Response
     {
         $this->setResponse($this->response->withExpiredCookie(new Cookie('user_id'))
             ->withExpiredCookie(new Cookie('game_id')));
-        $this->redirect('/');
+
+        return $this->redirect('/');
     }
 }
