@@ -14,6 +14,7 @@ declare(strict_types=1);
  * @since         3.3.0
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Test\TestCase;
 
 use App\Application;
@@ -44,6 +45,11 @@ class ApplicationTest extends IntegrationTestCase
         $this->assertSame('Bake', $plugins->get('Bake')->getName());
         $this->assertSame('DebugKit', $plugins->get('DebugKit')->getName());
         $this->assertSame('Migrations', $plugins->get('Migrations')->getName());
+    }
+
+    public function testManifestIsPresent()
+    {
+        $this->assertTrue(is_file(ROOT . DS . 'webroot' . DS . 'js' . DS . 'manifest.json'));
     }
 
     /**
