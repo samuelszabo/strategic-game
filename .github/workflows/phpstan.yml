@@ -66,7 +66,4 @@ jobs:
           ls
       - name: Run phpstan level Max
         run: |
-          vendor/latest/bin/phpstan analyse -l max -c phpstan.max.neon src --memory-limit 3000M
-      - name: Run phpstan level 0
-        run: |
-          vendor/latest/bin/phpstan analyse -l 0 src --memory-limit 3000M
+          vendor/bin/phpstan analyse -l max -c phpstan.max.neon src --memory-limit 3000M
