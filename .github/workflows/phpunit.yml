@@ -19,7 +19,6 @@ jobs:
     name: ${{ matrix.applications }} (PHP ${{ matrix.php-versions }})
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: mysql://root:root@localhost:3306/test
       extensions: mbstring, xml, ctype, iconv, mysql, imagick, openssl, intl
       key: cache-v20200302 # can be any string, change to clear the extension cache.
     services:
@@ -61,6 +60,7 @@ jobs:
           extensions: ${{ env.extensions }}
       - name: Display informations
         run: |
+          export DATABASE_TEST_URL="mysql://root:root@localhost:${{ job.services.mysql.ports['3306'] }}/test"
           echo "port = ${{ job.services.mysql.ports['3306'] }}"
           php -v
           composer --version
@@ -72,6 +72,7 @@ jobs:
       - name: Install Composer dependencies
         run: |
           composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+          chmod +x bin/cake
       - name: Run migration
         env:
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
