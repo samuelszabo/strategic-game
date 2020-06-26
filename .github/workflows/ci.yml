@@ -45,7 +45,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
-          php-version: '7.2'
+          php-version: '7.4'
           extensions: mbstring, intl
           coverage: none
           pecl: false
@@ -68,7 +68,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
-          php-version: '7.2'
+          php-version: '7.4'
           extensions: mbstring, intl
           coverage: none
           pecl: false

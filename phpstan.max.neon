@@ -1,0 +1,11 @@
+parameters:
+    level: max
+    autoload_files:
+        - config/paths.php
+    earlyTerminatingMethodCalls:
+        Cake\Shell\Shell:
+            - abort
+    excludes_analyse:
+        - src/*/tests/*
+        - */tests/*
+
