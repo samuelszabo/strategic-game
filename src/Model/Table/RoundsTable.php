@@ -4,9 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Entity\Round;
-use Cake\Event\Event;
 use Cake\Event\EventInterface;
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -15,7 +13,6 @@ use Cake\Validation\Validator;
  * Rounds Model
  *
  * @property \App\Model\Table\GamesTable&\Cake\ORM\Association\BelongsTo $Games
- *
  * @method \App\Model\Entity\Round newEmptyEntity()
  * @method \App\Model\Entity\Round newEntity(array $data, array $options = [])
  * @method \App\Model\Entity\Round[] newEntities(array $data, array $options = [])
@@ -29,7 +26,6 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Round[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
  * @method \App\Model\Entity\Round[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
  * @method \App\Model\Entity\Round[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
- *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class RoundsTable extends Table

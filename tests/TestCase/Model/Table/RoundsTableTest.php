@@ -7,13 +7,13 @@ use App\Ideas\Idea1;
 use App\Model\Entity\Bet;
 use App\Model\Entity\Game;
 use App\Model\Entity\Round;
-use App\Model\Table\GamesTable;
 use App\Model\Table\RoundsTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
  * App\Model\Table\RoundsTable Test Case
+ *
  * @property GamesTable Games
  */
 class RoundsTableTest extends TestCase

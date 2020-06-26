@@ -1,10 +1,7 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\Tables;
-
-use App\Ideas\Idea;
-use App\Ideas\IdeaInterface;
 
 interface TablesInterface
 {
@@ -13,7 +10,7 @@ interface TablesInterface
     public function getIntro(): string;
 
     /**
-     * @return Idea[]
+     * @return \App\Ideas\Idea[]
      */
     public function getIdeas(): array;
 }

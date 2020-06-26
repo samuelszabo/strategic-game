@@ -36,11 +36,11 @@ use Cake\I18n\I18n;
 class AppController extends Controller
 {
     /**
-     * @var User|null
+     * @var \App\Model\Entity\User|null
      */
     protected $user;
     /**
-     * @var Game|\Cake\Datasource\RepositoryInterface|null
+     * @var \App\Model\Entity\Game|\Cake\Datasource\RepositoryInterface|null
      */
     protected $game;
 
@@ -65,6 +65,10 @@ class AppController extends Controller
         $this->loadModel('Games');
     }
 
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @return \Cake\Http\Response|void|null
+     */
     public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
@@ -83,24 +87,35 @@ class AppController extends Controller
         $this->set('game', $this->game);
     }
 
+    /**
+     * @return \App\Model\Entity\User|null
+     */
     private function getUser(): ?User
     {
         $userId = $this->getRequest()->getCookie('user_id');
         if ($userId) {
             return $this->Users->get((int)$userId);
         }
+
         return null;
     }
 
+    /**
+     * @return \App\Model\Entity\Game|null
+     */
     private function getGame(): ?Game
     {
         $gameId = $this->getRequest()->getCookie('game_id');
         if ($gameId) {
             return $this->Games->get((int)$gameId, ['contain' => ['Rounds.Bets']]);
         }
+
         return null;
     }
 
+    /**
+     * @return bool
+     */
     private function isSetup(): bool
     {
         return in_array($this->getRequest()->getParam('controller'), ['Users', 'Games', 'Pages']);

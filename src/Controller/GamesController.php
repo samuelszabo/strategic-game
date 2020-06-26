@@ -17,6 +17,10 @@ use DateTime;
  */
 class GamesController extends AppController
 {
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @return \Cake\Http\Response|void|null
+     */
     public function beforeFilter(EventInterface $event)
     {
         $return = parent::beforeFilter($event);
@@ -37,7 +41,6 @@ class GamesController extends AppController
         $games = $this->Games->find()->contain(['Users'])->where(['rounds_count' => count(Game::$tables)])->orderDesc('points')->limit(10);
         $myGames = $this->Games->find()->contain(['Users'])->where(['user_id' => $this->user->id, 'rounds_count' => count(Game::$tables)])->orderDesc('points')->limit(10);
 
-
         $this->set(compact('games', 'myGames'));
     }
 
@@ -50,9 +53,7 @@ class GamesController extends AppController
      */
     public function view($id = null)
     {
-        $game = $this->Games->get($id, [
-            'contain' => ['Users', 'Rounds'],
-        ]);
+        $game = $this->Games->get($id, ['contain' => ['Users', 'Rounds'],]);
 
         $this->set(compact('game'));
     }
@@ -72,11 +73,8 @@ class GamesController extends AppController
             }
             $game = $this->Games->patchEntity($game, $data);
             if ($this->Games->save($game)) {
-                $cookie = (new Cookie('game_id'))
-                    ->withValue((string)$game->id)
-                    ->withExpiry(new DateTime('+1 year'))
-                    ->withSecure(false) //todo
-                    ->withHttpOnly(true);
+                $cookie = (new Cookie('game_id'))->withValue((string)$game->id)->withExpiry(new DateTime('+1 year'))->withSecure(false) //todo
+                ->withHttpOnly(true);
                 $this->setResponse($this->response->withCookie($cookie));
 
                 $this->Flash->success(__('The game has been saved.'));

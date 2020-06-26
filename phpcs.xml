@@ -1,6 +1,13 @@
 <?xml version="1.0"?>
 <ruleset name="App">
-    <config name="installed_paths" value="../../cakephp/cakephp-codesniffer"/>
+    <config name="installed_paths" value="../../cakephp/cakephp-codesniffer,src/CS"/>
 
     <rule ref="CakePHP"/>
+
+    <!-- Funkcie a metody nemusia mat doc block -->
+    <rule ref="CakePHP.Commenting.FunctionComment.Missing">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="src/CS/ruleset.xml"/>
 </ruleset>

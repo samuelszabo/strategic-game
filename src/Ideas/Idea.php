@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Ideas;
 
@@ -15,9 +16,12 @@ abstract class Idea
 
     public function getName(): string
     {
-        $classname = get_class($this);
-        if ($pos = strrpos($classname, '\\'))
+        $classname = static::class;
+        $pos = strrpos($classname, '\\');
+        if ($pos) {
             return substr($classname, $pos + 1);
+        }
+
         return $pos;
     }
 }

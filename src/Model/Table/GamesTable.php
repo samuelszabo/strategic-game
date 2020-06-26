@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
+use App\Model\Entity\Game;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -13,21 +13,19 @@ use Cake\Validation\Validator;
  *
  * @property \App\Model\Table\UsersTable&\Cake\ORM\Association\BelongsTo $Users
  * @property \App\Model\Table\RoundsTable&\Cake\ORM\Association\HasMany $Rounds
- *
- * @method \App\Model\Entity\Game newEmptyEntity()
- * @method \App\Model\Entity\Game newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Game[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Game get($primaryKey, $options = [])
- * @method \App\Model\Entity\Game findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Game patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Game[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Game|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Game saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Game[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Game[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Game[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Game[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
- *
+ * @method Game newEmptyEntity()
+ * @method Game newEntity(array $data, array $options = [])
+ * @method Game[] newEntities(array $data, array $options = [])
+ * @method Game get($primaryKey, $options = [])
+ * @method Game findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method Game patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method Game[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method Game|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method Game saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method Game[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method Game[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method Game[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method Game[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class GamesTable extends Table
@@ -48,12 +46,8 @@ class GamesTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Users', [
-            'foreignKey' => 'user_id',
-        ]);
-        $this->hasMany('Rounds', [
-            'foreignKey' => 'game_id',
-        ]);
+        $this->belongsTo('Users', ['foreignKey' => 'user_id',]);
+        $this->hasMany('Rounds', ['foreignKey' => 'game_id',]);
     }
 
     /**
@@ -64,26 +58,15 @@ class GamesTable extends Table
      */
     public function validationDefault(Validator $validator): Validator
     {
-        $validator
-            ->nonNegativeInteger('id')
-            ->allowEmptyString('id', null, 'create');
+        $validator->nonNegativeInteger('id')->allowEmptyString('id', null, 'create');
 
-        $validator
-            ->scalar('name')
-            ->maxLength('name', 255)
-            ->allowEmptyString('name');
+        $validator->scalar('name')->maxLength('name', 255)->allowEmptyString('name');
 
-        $validator
-            ->numeric('earns')
-            ->allowEmptyString('earns');
+        $validator->numeric('earns')->allowEmptyString('earns');
 
-        $validator
-            ->numeric('satisfactions')
-            ->allowEmptyString('satisfactions');
+        $validator->numeric('satisfactions')->allowEmptyString('satisfactions');
 
-        $validator
-            ->numeric('points')
-            ->allowEmptyString('points');
+        $validator->numeric('points')->allowEmptyString('points');
 
         return $validator;
     }
@@ -97,7 +80,6 @@ class GamesTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-
         return $rules;
     }
 }

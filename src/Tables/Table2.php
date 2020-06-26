@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Tables;
 
@@ -19,7 +20,7 @@ class Table2 implements TablesInterface
     }
 
     /**
-     * @return Idea1[]|array
+     * @return \App\Ideas\Idea1[]|array
      */
     public function getIdeas(): array
     {

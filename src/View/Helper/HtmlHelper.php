@@ -1,8 +1,7 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\View\Helper;
-
 
 use Cake\Log\Log;
 
@@ -35,5 +34,4 @@ class HtmlHelper extends \Cake\View\Helper\HtmlHelper
 
         return $file;
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\View\Helper;
 
@@ -14,6 +15,7 @@ class NumberHelper extends \Cake\View\Helper\NumberHelper
             $options['before'] = '+ ';
         }
         $currency = $currency ?: 'EUR';
+
         return parent::currency($number, $currency, $options);
     }
 
@@ -25,6 +27,7 @@ class NumberHelper extends \Cake\View\Helper\NumberHelper
         if ($number > 0) {
             $percentage = '+' . $percentage;
         }
+
         return $percentage;
     }
 }

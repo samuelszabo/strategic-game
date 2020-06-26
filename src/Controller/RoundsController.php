@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Tables\Table1;
-use App\Tables\Table2;
 use Cake\Event\EventInterface;
 use Cake\Http\Cookie\Cookie;
 use Cake\Http\Exception\UnauthorizedException;
@@ -17,12 +15,11 @@ use Cake\Http\Exception\UnauthorizedException;
  */
 class RoundsController extends AppController
 {
-
-
     public function beforeFilter(EventInterface $event)
     {
         $redirect = parent::beforeFilter($event);
         $this->set('table', $this->game ? $this->game->nextTable() : null);
+
         return $redirect;
     }
 

@@ -6,6 +6,5 @@ parameters:
         Cake\Shell\Shell:
             - abort
     excludes_analyse:
-        - src/*/tests/*
-        - */tests/*
+        - tests/*
 

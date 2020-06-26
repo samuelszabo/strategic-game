@@ -42,7 +42,8 @@ class Bet extends Entity
     public function getIdea(): Idea
     {
         $className = App::className($this->idea_name, 'Ideas');
-        return new $className;
+
+        return new $className();
     }
 
     public function getEarns(): float
@@ -57,12 +58,14 @@ class Bet extends Entity
         if ($this->bet >= 0.5) {
             return $idea->earns * $idea->halfEarns;
         }
+
         return 0;
     }
 
     public function getSatisfaction(): float
     {
         $satisfaction = $this->getIdea()->satisfaction;
+
         return $satisfaction * $this->bet;
     }
 }

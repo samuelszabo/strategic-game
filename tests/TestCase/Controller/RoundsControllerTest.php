@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\RoundsController;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
@@ -41,14 +40,12 @@ class RoundsControllerTest extends TestCase
         $this->assertResponseOk();
     }
 
-
     public function testAddWithoutCookie(): void
     {
         $this->cookie('user_id', 1);
         $this->get('/rounds/add');
         $this->assertRedirect('/games/add');
     }
-
 
     public function testAdd(): void
     {

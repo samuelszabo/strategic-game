@@ -20,11 +20,11 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime|null $modified
  *
  * @property \App\Model\Entity\Game $game
- * @property Bet[] $bets
+ * @property \App\Model\Entity\Bet[] $bets
  */
 class Round extends Entity
 {
-    const MAX = 3;
+    public const MAX = 3;
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
@@ -48,12 +48,13 @@ class Round extends Entity
         return collection($this->getPositiveBets())->sumOf(fn(Bet $bet) => $bet->getEarns());
     }
 
-    public function getSatisfaction(): float {
+    public function getSatisfaction(): float
+    {
         return collection($this->getPositiveBets())->sumOf(fn(Bet $bet) => $bet->getSatisfaction());
     }
 
     /**
-     * @return Bet[]
+     * @return \App\Model\Entity\Bet[]
      */
     public function getPositiveBets(): array
     {

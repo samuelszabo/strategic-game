@@ -1,14 +1,11 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\Lib;
-
 
 use App\Lib\CompanyNameGenerator\FakerProvider;
 use Faker\Factory;
 use Faker\Generator;
-use Faker\Provider\Base;
-use josegonzalez\Dotenv\Filter\UnderscoreArrayFilter;
 
 class CompanyNameGenerator
 {
@@ -30,6 +27,7 @@ class CompanyNameGenerator
         for ($i = 1; $i <= $number; $i++) {
             $names[] = $this->faker->companyName;
         }
+
         return $names;
     }
 }

@@ -1,12 +1,10 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\Ideas;
 
-
 class Maintenance extends Idea
 {
-
     public string $title = 'Údržba a zlepšovanie';
     public string $intro = 'Maintanance';
 

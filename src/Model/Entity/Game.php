@@ -48,7 +48,7 @@ class Game extends Entity
         'rounds' => true,
     ];
 
-    static array $tables = [
+    public static array $tables = [
         Table1::class,
         Table2::class,
     ];
@@ -64,7 +64,8 @@ class Game extends Entity
             return null;
         }
         $table = self::$tables[$this->getLastNumber() - 1];
-        return new $table;
+
+        return new $table();
     }
 
     public function getLastNumber(): int

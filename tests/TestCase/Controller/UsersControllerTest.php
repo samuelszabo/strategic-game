@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\UsersController;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
@@ -53,5 +52,4 @@ class UsersControllerTest extends TestCase
         $this->assertRedirect('/games/add');
         $this->assertCookie('2', 'user_id');
     }
-
 }
