@@ -52,28 +52,27 @@ class GamesControllerTest extends TestCase
      *
      * @return void
      */
+    public function testAddWithoutUser(): void
+    {
+        $this->get('/games/add');
+        $this->assertRedirect('/users/add');
+    }
+
     public function testAdd(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->cookie('user_id', 1);
+        $this->get('/games/add');
+        $this->assertResponseOk();
     }
 
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit(): void
+    public function testAddPost(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test delete method
-     *
-     * @return void
-     */
-    public function testDelete(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->cookie('user_id', 1);
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
+        $this->post('/games/add', ['name' => 'Test1']);
+        $this->assertRedirect('/rounds');
+        $this->assertCookie('2', 'game_id');
     }
 }
+

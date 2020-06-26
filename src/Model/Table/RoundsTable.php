@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Model\Table;
 
 use App\Model\Entity\Round;
+use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -48,6 +50,12 @@ class RoundsTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        $this->addBehavior('CounterCache', [
+            'Games' => [
+
+            ],
+        ]);
+
         $this->belongsTo('Games', [
             'foreignKey' => 'game_id',
         ]);
@@ -72,27 +80,17 @@ class RoundsTable extends Table
             ->integer('number')
             ->allowEmptyString('number');
 
-        $validator
-            ->numeric('bet_project_1')
-            ->allowEmptyString('bet_project_1');
-
-        $validator
-            ->numeric('bet_project_2')
-            ->allowEmptyString('bet_project_2');
-
-        $validator
-            ->numeric('bet_project_3')
-            ->allowEmptyString('bet_project_3');
-
-        $validator
-            ->numeric('bet_maintenance')
-            ->allowEmptyString('bet_maintenance');
-
-        $validator
-            ->numeric('bet_upgrade')
-            ->allowEmptyString('bet_upgrade');
-
         return $validator;
+    }
+
+    public function afterSave(EventInterface $event, Round $round)
+    {
+        $game = $this->Games->get($round->game_id, ['contain' => ['Rounds.Bets']]);
+        $game->rounds_count = count($game->rounds);
+        $game->earns = $game->calculateEarns();
+        $game->satisfactions = $game->calculateSatisfaction();
+        $game->points = 0;
+        $this->Games->saveOrFail($game);
     }
 
     /**

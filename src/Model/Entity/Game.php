@@ -5,8 +5,8 @@ namespace App\Model\Entity;
 
 use App\Tables\Table1;
 use App\Tables\Table2;
+use App\Tables\TablesInterface;
 use Cake\ORM\Entity;
-use Cake\ORM\Table;
 
 /**
  * Game Entity
@@ -14,6 +14,10 @@ use Cake\ORM\Table;
  * @property int $id
  * @property int|null $user_id
  * @property string|null $name
+ * @property int|null $rounds_count
+ * @property float|null $earns
+ * @property float|null $satisfactions
+ * @property float|null $points
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
  *
@@ -34,13 +38,17 @@ class Game extends Entity
     protected $_accessible = [
         'user_id' => true,
         'name' => true,
+        'rounds_count' => true,
+        'earns' => true,
+        'satisfactions' => true,
+        'points' => true,
         'created' => true,
         'modified' => true,
         'user' => true,
         'rounds' => true,
     ];
 
-    private array $tables = [
+    static array $tables = [
         Table1::class,
         Table2::class,
     ];
@@ -50,12 +58,12 @@ class Game extends Entity
         return 1;
     }
 
-    public function nextTable(): ?Table
+    public function nextTable(): ?TablesInterface
     {
-        if (!isset($this->tables[$this->getLastNumber()])) {
+        if (!isset(self::$tables[$this->getLastNumber() - 1])) {
             return null;
         }
-        $table = $this->tables[$this->getLastNumber()];
+        $table = self::$tables[$this->getLastNumber() - 1];
         return new $table;
     }
 
@@ -64,12 +72,12 @@ class Game extends Entity
         return count($this->rounds) + 1;
     }
 
-    public function getEarns(): float
+    public function calculateEarns(): float
     {
         return collection($this->rounds)->sumOf(fn(Round $round) => ($this->getLastNumber() - $round->number) * $round->getEarns());
     }
 
-    public function getSatisfaction(): float
+    public function calculateSatisfaction(): float
     {
         return collection($this->rounds)->sumOf(fn(Round $round) => ($this->getLastNumber() - $round->number) * $round->getSatisfaction());
     }

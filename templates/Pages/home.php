@@ -20,6 +20,7 @@ use Cake\Core\Plugin;
 use Cake\Datasource\ConnectionManager;
 use Cake\Error\Debugger;
 use Cake\Http\Exception\NotFoundException;
+
 ?>
 
 <main class="main">
@@ -27,7 +28,10 @@ use Cake\Http\Exception\NotFoundException;
         <div class="content">
             <div class="row">
                 <div class="column">
-                    Vitaj
+                    <h1>Vitaj</h1>
+                    <p>Tu si vyskúšaš č je zodpovednosť pri strategickom plánovaní.</p>
+                    <?= $this->Html->link(__('New Game'), ['controller' => 'Rounds', 'action' => 'add'], ['class' => 'button']) ?>
+                    <?= $this->Html->link(__('Winners'), ['controller' => 'Games', 'action' => 'index'], ['class' => 'button button-outline']) ?>
                 </div>
             </div>
         </div>

@@ -10,7 +10,7 @@ class Table2 implements TablesInterface
 {
     public function getTitle(): string
     {
-        return 'Ťažký kvartál';
+        return 'Druhý kvartál';
     }
 
     public function getIntro(): string

@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Tables\Table1;
 use App\Tables\Table2;
 use Cake\Event\EventInterface;
+use Cake\Http\Cookie\Cookie;
 use Cake\Http\Exception\UnauthorizedException;
 
 /**
@@ -20,8 +21,9 @@ class RoundsController extends AppController
 
     public function beforeFilter(EventInterface $event)
     {
+        $redirect = parent::beforeFilter($event);
         $this->set('table', $this->game ? $this->game->nextTable() : null);
-        return parent::beforeFilter($event);
+        return $redirect;
     }
 
     /**
@@ -50,6 +52,10 @@ class RoundsController extends AppController
             throw new UnauthorizedException('Wrong user');
         }
 
+        if (is_null($this->game->nextTable())) {
+            $this->setResponse($this->response->withExpiredCookie(new Cookie('game_id')));
+        }
+
         $this->set(compact('round'));
     }
 
@@ -71,50 +77,5 @@ class RoundsController extends AppController
             $this->Flash->error(__('The round could not be saved. Please, try again.'));
         }
         $this->set(compact('round'));
-    }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id Round id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $round = $this->Rounds->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $round = $this->Rounds->patchEntity($round, $this->request->getData());
-            if ($this->Rounds->save($round)) {
-                $this->Flash->success(__('The round has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The round could not be saved. Please, try again.'));
-        }
-        $games = $this->Rounds->Games->find('list', ['limit' => 200]);
-        $this->set(compact('round', 'games'));
-    }
-
-    /**
-     * Delete method
-     *
-     * @param string|null $id Round id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $round = $this->Rounds->get($id);
-        if ($this->Rounds->delete($round)) {
-            $this->Flash->success(__('The round has been deleted.'));
-        } else {
-            $this->Flash->error(__('The round could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
     }
 }

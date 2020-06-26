@@ -18,10 +18,10 @@
         </div>
         <div class="content">
             <p>Tržby: <?php
-                echo $this->Number->currency($game->getEarns());
+                echo $this->Number->currency($game->calculateEarns());
                 ?></p>
             <p>Spokojnosť: <?php
-                echo $this->Number->toPercentage($game->getSatisfaction());
+                echo $this->Number->toPercentage($game->calculateSatisfaction());
                 ?></p>
             <?php
             if ($game->nextTable()) {

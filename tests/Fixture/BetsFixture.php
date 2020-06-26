@@ -43,7 +43,7 @@ class BetsFixture extends TestFixture
             [
                 'id' => 1,
                 'round_id' => 1,
-                'idea_name' => 'Lorem ipsum dolor sit amet',
+                'idea_name' => 'Idea1',
                 'bet' => 1,
                 'created' => '2020-06-26 13:29:02',
                 'modified' => '2020-06-26 13:29:02',

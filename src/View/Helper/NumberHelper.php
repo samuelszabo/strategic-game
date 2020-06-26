@@ -11,7 +11,7 @@ class NumberHelper extends \Cake\View\Helper\NumberHelper
             'locale' => 'sk_SK',
         ];
         if ($number > 0) {
-            $options['before'] = '+';
+            $options['before'] = '+ ';
         }
         $currency = $currency ?: 'EUR';
         return parent::currency($number, $currency, $options);

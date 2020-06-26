@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Lib\CompanyNameGenerator;
+use App\Model\Entity\Game;
+use Cake\Event\EventInterface;
 use Cake\Http\Cookie\Cookie;
 use DateTime;
 
@@ -14,6 +17,16 @@ use DateTime;
  */
 class GamesController extends AppController
 {
+    public function beforeFilter(EventInterface $event)
+    {
+        $return = parent::beforeFilter($event);
+        if (is_null($this->user)) {
+            return $this->redirect(['controller' => 'Users', 'action' => 'add']);
+        }
+
+        return $return;
+    }
+
     /**
      * Index method
      *
@@ -21,12 +34,11 @@ class GamesController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Users'],
-        ];
-        $games = $this->paginate($this->Games);
+        $games = $this->Games->find()->contain(['Users'])->where(['rounds_count' => count(Game::$tables)])->orderDesc('points')->limit(10);
+        $myGames = $this->Games->find()->contain(['Users'])->where(['user_id' => $this->user->id, 'rounds_count' => count(Game::$tables)])->orderDesc('points')->limit(10);
 
-        $this->set(compact('games'));
+
+        $this->set(compact('games', 'myGames'));
     }
 
     /**
@@ -54,7 +66,11 @@ class GamesController extends AppController
     {
         $game = $this->Games->newEmptyEntity();
         if ($this->request->is('post')) {
-            $game = $this->Games->patchEntity($game, $this->request->getData());
+            $data = $this->request->getData();
+            if (empty($data['name'])) {
+                $data['name'] = $data['fallbackName'];
+            }
+            $game = $this->Games->patchEntity($game, $data);
             if ($this->Games->save($game)) {
                 $cookie = (new Cookie('game_id'))
                     ->withValue((string)$game->id)
@@ -69,51 +85,16 @@ class GamesController extends AppController
             }
             $this->Flash->error(__('The game could not be saved. Please, try again.'));
         }
-        $this->set(compact('game'));
+
+        $generator = new CompanyNameGenerator();
+        $companyNames = $generator->generate(3);
+
+        $this->set(compact('game', 'companyNames'));
     }
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Game id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
+    public function reset()
     {
-        $game = $this->Games->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $game = $this->Games->patchEntity($game, $this->request->getData());
-            if ($this->Games->save($game)) {
-                $this->Flash->success(__('The game has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The game could not be saved. Please, try again.'));
-        }
-        $users = $this->Games->Users->find('list', ['limit' => 200]);
-        $this->set(compact('game', 'users'));
-    }
-
-    /**
-     * Delete method
-     *
-     * @param string|null $id Game id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $game = $this->Games->get($id);
-        if ($this->Games->delete($game)) {
-            $this->Flash->success(__('The game has been deleted.'));
-        } else {
-            $this->Flash->error(__('The game could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
+        $this->setResponse($this->response->withExpiredCookie(new Cookie('game_id')));
+        $this->redirect(['action' => 'add']);
     }
 }

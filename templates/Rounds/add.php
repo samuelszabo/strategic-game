@@ -5,6 +5,7 @@
  * @var \App\Tables\TablesInterface $table
  * @var \App\Model\Entity\Game $game
  */
+$this->assign('title', $table->getTitle());
 ?>
 <div class="rounds index content">
     <div class="column">

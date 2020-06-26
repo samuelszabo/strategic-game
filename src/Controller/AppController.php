@@ -21,6 +21,7 @@ use App\Model\Entity\Game;
 use App\Model\Entity\User;
 use Cake\Controller\Controller;
 use Cake\Event\EventInterface;
+use Cake\I18n\I18n;
 
 /**
  * Application Controller
@@ -67,6 +68,7 @@ class AppController extends Controller
     public function beforeFilter(EventInterface $event)
     {
         parent::beforeFilter($event);
+        I18n::setLocale('sk_SK');
         $this->user = $this->getUser();
         $this->game = $this->getGame();
 
@@ -101,6 +103,6 @@ class AppController extends Controller
 
     private function isSetup(): bool
     {
-        return in_array($this->getRequest()->getParam('controller'), ['Users', 'Games']);
+        return in_array($this->getRequest()->getParam('controller'), ['Users', 'Games', 'Pages']);
     }
 }

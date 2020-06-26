@@ -27,52 +27,31 @@ class UsersControllerTest extends TestCase
     ];
 
     /**
-     * Test index method
-     *
-     * @return void
-     */
-    public function testIndex(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test view method
-     *
-     * @return void
-     */
-    public function testView(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
      * Test add method
      *
      * @return void
      */
     public function testAdd(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/users/add');
+        $this->assertResponseOk();
     }
 
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit(): void
+    public function testLogout(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->cookie('user_id', 1);
+        $this->get('/users/logout');
+        $this->assertRedirect();
+        $this->assertCookieNotSet('user_id');
     }
 
-    /**
-     * Test delete method
-     *
-     * @return void
-     */
-    public function testDelete(): void
+    public function testAddPost(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
+        $this->post('/users/add', ['name' => 'Test1']);
+        $this->assertRedirect('/games/add');
+        $this->assertCookie('2', 'user_id');
     }
+
 }

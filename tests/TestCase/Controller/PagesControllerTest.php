@@ -14,6 +14,7 @@ declare(strict_types=1);
  * @since         1.2.0
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Test\TestCase\Controller;
 
 use Cake\Core\Configure;
@@ -47,11 +48,10 @@ class PagesControllerTest extends TestCase
      *
      * @return void
      */
-    public function testDisplay()
+    public function testHome()
     {
-        $this->get('/pages/home');
+        $this->get('/');
         $this->assertResponseOk();
-        $this->assertResponseContains('CakePHP');
         $this->assertResponseContains('<html>');
     }
 
@@ -118,9 +118,9 @@ class PagesControllerTest extends TestCase
     public function testCsrfAppliedOk()
     {
         $this->enableCsrfToken();
+        $this->enableSecurityToken();
         $this->post('/pages/home', ['hello' => 'world']);
 
         $this->assertResponseCode(200);
-        $this->assertResponseContains('CakePHP');
     }
 }

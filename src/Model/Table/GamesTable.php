@@ -73,6 +73,18 @@ class GamesTable extends Table
             ->maxLength('name', 255)
             ->allowEmptyString('name');
 
+        $validator
+            ->numeric('earns')
+            ->allowEmptyString('earns');
+
+        $validator
+            ->numeric('satisfactions')
+            ->allowEmptyString('satisfactions');
+
+        $validator
+            ->numeric('points')
+            ->allowEmptyString('points');
+
         return $validator;
     }
 
@@ -85,7 +97,6 @@ class GamesTable extends Table
      */
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        $rules->add($rules->existsIn(['user_id'], 'Users'));
 
         return $rules;
     }

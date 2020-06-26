@@ -24,6 +24,8 @@ class RoundsControllerTest extends TestCase
     protected $fixtures = [
         'app.Rounds',
         'app.Games',
+        'app.Users',
+        'app.Bets',
     ];
 
     /**
@@ -33,37 +35,35 @@ class RoundsControllerTest extends TestCase
      */
     public function testIndex(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->cookie('user_id', 1);
+        $this->cookie('game_id', 1);
+        $this->get('/rounds');
+        $this->assertResponseOk();
     }
 
-    /**
-     * Test view method
-     *
-     * @return void
-     */
-    public function testView(): void
+
+    public function testAddWithoutCookie(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->cookie('user_id', 1);
+        $this->get('/rounds/add');
+        $this->assertRedirect('/games/add');
     }
 
-    /**
-     * Test add method
-     *
-     * @return void
-     */
+
     public function testAdd(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->cookie('user_id', 1);
+        $this->cookie('game_id', 1);
+        $this->get('/rounds/add');
+        $this->assertResponseOk();
     }
 
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit(): void
+    public function testView(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->cookie('user_id', 1);
+        $this->cookie('game_id', 1);
+        $this->get('/rounds/view/1');
+        $this->assertResponseOk();
     }
 
     /**

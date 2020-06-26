@@ -1,0 +1,97 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2020-06-26 16:11+0000\n"
+"PO-Revision-Date: 2020-06-26 18:14+0200\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Poedit-Basepath: ..\n"
+"X-Generator: Poedit 2.3.1\n"
+"X-Poedit-SearchPath-0: default.pot\n"
+
+#: Controller/GamesController.php:82
+msgid "The game has been saved."
+msgstr "Hra bola uložená."
+
+#: Controller/GamesController.php:86
+msgid "The game could not be saved. Please, try again."
+msgstr "Hru sa nepodarilo uložiť. Prosím, skúste znova."
+
+#: Controller/RoundsController.php:77
+msgid "The round could not be saved. Please, try again."
+msgstr "Kolo sa nepodarilo uložiť. Prosím, skúste znova."
+
+#: Controller/UsersController.php:65
+msgid "The user could not be saved. Please, try again."
+msgstr "Konto sa nepodarilo vytvoriť. Prosím, skús znova."
+
+#: Model/Table/UsersTable.php:79
+msgid "This name has already been used."
+msgstr "Meno sa už používa."
+
+#: Games/add.php:18
+msgid "Company name"
+msgstr "Názov firmy"
+
+#: Games/add.php:27 Rounds/index.php:12
+msgid "Start Game"
+msgstr "Začať hru"
+
+#: Games/index.php:8 Pages/home.php:33 layout/default.php:47
+msgid "New Game"
+msgstr "Nová hra"
+
+#: Games/index.php:9
+msgid "Best ofs"
+msgstr "Best ofs"
+
+#: Games/index.php:15 Games/index.php:43 Users/add.php:14
+msgid "Name"
+msgstr "Meno"
+
+#: Games/index.php:16 Games/index.php:44
+msgid "Points"
+msgstr "Body"
+
+#: Games/index.php:17 Games/index.php:45
+msgid "Earns"
+msgstr "Zárobok"
+
+#: Games/index.php:18 Games/index.php:46
+msgid "Satisfaction"
+msgstr "Spokojnosť"
+
+#: Games/index.php:38
+msgid "Your results"
+msgstr "Tvoje výsledky"
+
+#: Pages/home.php:34 layout/default.php:50
+msgid "Winners"
+msgstr "Víťazi"
+
+#: Rounds/add.php:23
+msgid "Idey na tento kvartál"
+msgstr ""
+
+#: Rounds/add.php:35 Users/add.php:17
+msgid "Submit"
+msgstr "Odoslať"
+
+#: layout/default.php:51
+msgid "Logout"
+msgstr "Odhlásiť"
+
+#: layout/error.php:40
+msgid "Back"
+msgstr "Späť"
+
+#~ msgid "New game"
+#~ msgstr "Nová hra"

@@ -3,15 +3,18 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Model\Table;
 
+use App\Ideas\Idea1;
 use App\Model\Entity\Bet;
 use App\Model\Entity\Game;
 use App\Model\Entity\Round;
+use App\Model\Table\GamesTable;
 use App\Model\Table\RoundsTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
  * App\Model\Table\RoundsTable Test Case
+ * @property GamesTable Games
  */
 class RoundsTableTest extends TestCase
 {
@@ -43,6 +46,7 @@ class RoundsTableTest extends TestCase
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('Rounds') ? [] : ['className' => RoundsTable::class];
         $this->Rounds = TableRegistry::getTableLocator()->get('Rounds', $config);
+        $this->Games = TableRegistry::getTableLocator()->get('Games');
     }
 
     /**
@@ -72,13 +76,20 @@ class RoundsTableTest extends TestCase
         $this->assertSame(['bets' => ['ruleName' => 'Pridelená kapacita je vyššia ako dostupná']], $round->getErrors());
     }
 
-    /**
-     * Test buildRules method
-     *
-     * @return void
-     */
-    public function testBuildRules(): void
+    public function testCounterCache(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $game = new Game(['id' => 10]);
+        $this->Games->saveOrFail($game);
+        $round = new Round(['number' => 1]);
+        $round->game = $game;
+        $this->assertSame(1, $round->game->getCapacity());
+        $round->bets = [
+            new Bet(['bet' => 1, 'idea_name' => (new Idea1())->getName()]),
+        ];
+
+        $this->Rounds->saveOrFail($round);
+        $game = $this->Games->get(10);
+        $this->assertSame(1000.0, $game->earns);
+        $this->assertSame(-0.1, $game->satisfactions);
     }
 }

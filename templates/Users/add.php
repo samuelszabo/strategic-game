@@ -9,9 +9,9 @@
         <div class="users form content">
             <?= $this->Form->create($user) ?>
             <fieldset>
-                <legend><?= __('Add User') ?></legend>
+                <p>Najpr sa predstav. Pod týmto menom sa nájdeš aj na výhernej listine.</p>
                 <?php
-                    echo $this->Form->control('name');
+                echo $this->Form->control('name', ['label' => __('Name'), 'autofocus' => 'autofocus']);
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>

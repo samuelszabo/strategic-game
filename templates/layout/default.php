@@ -32,8 +32,8 @@ use App\View\AppView;
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 
-    <script defer src="./js/<?= $this->Html->versionedUrl('main.js') ?>" charset="utf-8"></script>
-    <script defer src="./js/<?= $this->Html->versionedUrl('vendors~main.js') ?>" charset="utf-8"></script>
+    <script defer src="/js/<?= $this->Html->versionedUrl('main.js') ?>" charset="utf-8"></script>
+    <script defer src="/js/<?= $this->Html->versionedUrl('vendors~main.js') ?>" charset="utf-8"></script>
 </head>
 <body>
 <nav class="top-nav">
@@ -42,14 +42,15 @@ use App\View\AppView;
     </div>
     <div class="top-nav-links">
         <?php
-        if ($game) {
-            echo min(count($game->rounds) + 1, Round::MAX) . '/' . Round::MAX;
-            echo $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout']);
-            echo $this->Html->link('Previous games', ['controller' => 'Games', 'action' => 'index']);
+        if ($game && !$game->isNew()) {
+            //echo min(count($game->rounds) + 1, Round::MAX) . '/' . Round::MAX;
+            echo $this->Form->postLink(__('New Game'), ['controller' => 'Games', 'action' => 'reset']);
+        }
+        if ($user) {
+            echo $this->Html->link(__('Winners'), ['controller' => 'Games', 'action' => 'index']);
+            echo $this->Form->postLink(__('Logout'), ['controller' => 'Users', 'action' => 'logout']);
         }
         ?>
-        <a target="_blank" href="https://book.cakephp.org/4/">New game</a>
-        <a target="_blank" href="https://api.cakephp.org/4/">API</a>
     </div>
 </nav>
 <main class="main">
