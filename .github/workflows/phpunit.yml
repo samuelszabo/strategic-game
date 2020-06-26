@@ -16,7 +16,7 @@ on:
       - '**'
 jobs:
   phpunit:
-    name: ${{ matrix.applications }} (PHP ${{ matrix.php-versions }})
+    name: phpunit (PHP ${{ matrix.php-versions }})
     runs-on: ubuntu-latest
     env:
       extensions: mbstring, xml, ctype, iconv, mysql, imagick, openssl, intl
@@ -83,4 +83,4 @@ jobs:
         env:
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
         run: |
-          vendor/bin/phpunit  --configuration ${{ matrix.applications }}.phpunit.xml --log-junit tmp/testsuites.xml
+          vendor/bin/phpunit  --configuration phpunit.xml --log-junit tmp/testsuites.xml
