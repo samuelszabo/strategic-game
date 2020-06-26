@@ -10,8 +10,8 @@ on:
   pull_request:
     paths:
       - '**.php'
-        - 'composer.*'
-        - '.github/workflows/phpstan.yml'
+      - 'composer.*'
+      - '.github/workflows/phpstan.yml'
     branches:
       - '**'
 jobs:
