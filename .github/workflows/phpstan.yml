@@ -1,0 +1,71 @@
+name: PHPStan
+on:
+  push:
+    paths:
+      - '**.php'
+      - 'composer.*'
+      - '.github/workflows/phpstan.yml'
+    branches:
+      - master
+  pull_request:
+    paths:
+      - '**.php'
+        - 'composer.*'
+        - '.github/workflows/phpstan.yml'
+    branches:
+      - '**'
+jobs:
+  phpstan:
+    name: PHP ${{ matrix.php-versions }}
+    runs-on: ubuntu-latest
+    env:
+      extensions: mbstring, xml, ctype, iconv, mysql, imagick, openssl, intl
+      key: cache-v20200302 # can be any string, change to clear the extension cache.
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        php-versions: ['7.4']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup cache environment
+        id: cache-env
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: ${{ env.extensions }}
+          key: ${{ env.key }}
+
+      - name: Cache extensions
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.cache-env.outputs.dir }}
+          key: ${{ steps.cache-env.outputs.key }}
+          restore-keys: ${{ steps.cache-env.outputs.key }}
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: ${{ env.extensions }}
+      - name: Display PHP information
+        run: |
+          php -v
+          composer --version
+      - name: Cache PHP dependencies
+        uses: actions/cache@v1
+        with:
+          path: vendor
+          key: ${{ runner.OS }}-build-${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
+      - name: Install Composer dependencies
+        run: |
+          composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+          cd vendor
+          ls
+      - name: Run phpstan level Max
+        run: |
+          vendor/latest/bin/phpstan analyse -l max -c phpstan.max.neon src --memory-limit 3000M
+      - name: Run phpstan level 0
+        run: |
+          vendor/latest/bin/phpstan analyse -l 0 src --memory-limit 3000M

@@ -1,0 +1,32 @@
+name: 'jest'
+on:
+  push:
+    paths:
+      - 'js/**'
+    branches:
+      - master
+  pull_request:
+    paths:
+      - 'js/**'
+    branches:
+      - '**'
+jobs:
+  jest:
+    runs-on: ubuntu-16.04
+    strategy:
+      matrix:
+        node: [ '10' ]
+    name: Node ${{ matrix.node }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup
+        uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - name: Npm install
+        run: |
+          npm install
+      - name: npm test
+        run: |
+          npm run test
