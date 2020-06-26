@@ -1,6 +1,18 @@
 name: Coding Standard
 
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      - '**.php'
+      - '.github/workflows/cs.yml'
+    branches:
+      - master
+  pull_request:
+    paths:
+      - '**.php'
+      - '.github/workflows/cs.yml'
+    branches:
+      - '**'
 
 jobs:
   coding-standard:
