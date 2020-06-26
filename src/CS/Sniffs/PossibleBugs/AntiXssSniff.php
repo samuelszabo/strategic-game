@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\CS\Sniffs\PossibleBugs;
 
@@ -10,9 +10,44 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 class AntiXssSniff implements Sniff
 {
     //tokeny ktore preskakujem (bodky, medzery, ..)
-    const ALLOWED_TOKENS = [T_CONSTANT_ENCAPSED_STRING, T_COMMENT, T_WHITESPACE, T_STRING_CONCAT, T_OPEN_PARENTHESIS, T_LNUMBER, T_SEMICOLON,];
+    public const ALLOWED_TOKENS = [
+        T_CONSTANT_ENCAPSED_STRING,
+        T_COMMENT,
+        T_WHITESPACE,
+        T_STRING_CONCAT,
+        T_OPEN_PARENTHESIS,
+        T_LNUMBER,
+        T_SEMICOLON,
+    ];
 
-    public $safeFunctions = ['h' => true, 'ne' => true, 'json_encode' => true, '$this->element' => true, '$this->Element' => true, '$this->cell' => true, '$this->fetch' => true, '$this->Breadcrumbs' => true, '$this->Customer' => true, '$this->Flash' => true, '$this->Form' => true, '$this->B3Form' => true, '$this->Html' => true, '$this->Number' => true, '$this->Paginator' => true, '$this->Text' => true, '$this->Time' => true, '$this->Url' => true, '$this->Product' => true, '$this->Cart' => true, '$this->Ad' => true, '$this->Asset' => true, '$this->Pbx' => true, '$this->Meta' => true, '$this->LB' => true, '$this->Address' => true,];
+    public $safeFunctions = [
+        'h' => true,
+        'ne' => true,
+        'json_encode' => true,
+        '$this->element' => true,
+        '$this->Element' => true,
+        '$this->cell' => true,
+        '$this->fetch' => true,
+        '$this->Breadcrumbs' => true,
+        '$this->Customer' => true,
+        '$this->Flash' => true,
+        '$this->Form' => true,
+        '$this->B3Form' => true,
+        '$this->Html' => true,
+        '$this->Number' => true,
+        '$this->Paginator' => true,
+        '$this->Text' => true,
+        '$this->Time' => true,
+        '$this->Url' => true,
+        '$this->Product' => true,
+        '$this->Cart' => true,
+        '$this->Ad' => true,
+        '$this->Asset' => true,
+        '$this->Pbx' => true,
+        '$this->Meta' => true,
+        '$this->LB' => true,
+        '$this->Address' => true,
+    ];
 
     public function register()
     {
@@ -28,7 +63,6 @@ class AntiXssSniff implements Sniff
      * @param int $stackPtr The position in the PHP_CodeSniffer
      *                                               file's token stack where the token
      *                                               was found.
-     *
      * @return void|int Optionally returns a stack pointer. The sniff will not be
      *                  called again on the current file until the returned stack
      *                  pointer is reached. Return (count($tokens) + 1) to skip
@@ -37,7 +71,7 @@ class AntiXssSniff implements Sniff
     public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
-        $end = $phpcsFile->findEndOfStatement($stackPtr) + 1;   //+1 lebo od nuly
+        $end = $phpcsFile->findEndOfStatement($stackPtr) + 1; //+1 lebo od nuly
         $tokens = array_slice($tokens, $stackPtr, $end - $stackPtr);
 
         $whitespace = $tokens[1];
@@ -50,7 +84,6 @@ class AntiXssSniff implements Sniff
             $isThis = false;
             $insideFunction = 0;
             for ($i = 1; $i < $max; $i++) {
-
                 if ($skipUntil && $i < $skipUntil) {
                     continue;
                 }
@@ -84,7 +117,10 @@ class AntiXssSniff implements Sniff
                 } elseif (is_bool($config)) {
                     $isSafe = $config;
                 } else {
-                    throw new InvalidArgumentException("Config for function {$function} is of type " . gettype($config) . ", only bool or callable is allowed");
+                    throw new InvalidArgumentException(
+                        "Config for function {$function} is of type " . gettype($config) .
+                        ", only bool or callable is allowed"
+                    );
                 }
 
                 if ($isSafe) {
@@ -105,7 +141,12 @@ class AntiXssSniff implements Sniff
                     if ($this->isVariable($next)) {
                         $endOfObject = $this->getEndOfObject($tokens, $i);
                         $errorFunction = ($insideFunction ? 'addError' : 'addFixableError');
-                        $fix = $phpcsFile->$errorFunction('Unescaped echo found, potential XSS', $stackPtr + $i, 'UnescapedVariable');
+                        $fix =
+                            $phpcsFile->$errorFunction(
+                                'Unescaped echo found, potential XSS',
+                                $stackPtr + $i,
+                                'UnescapedVariable'
+                            );
                         //fixujem len v pripade, ze nie som vo vnutri funkcie (argumenty fcii, anonymne funkcie, ..)
                         if ($fix === true && !$insideFunction) {
                             $phpcsFile->fixer->beginChangeset();
@@ -125,6 +166,7 @@ class AntiXssSniff implements Sniff
      * * $variable['i']
      * * $object->next->next
      * * etc..
+     *
      * @param array $tokens
      * @param int $stackPtr
      * @return int
@@ -134,11 +176,31 @@ class AntiXssSniff implements Sniff
         $max = count($tokens);
         for ($i = $stackPtr; $i < $max; $i++) {
             $token = $tokens[$i];
-            if (in_array($token['code'], [T_OBJECT_OPERATOR, T_CONSTANT_ENCAPSED_STRING, T_WHITESPACE, T_LINE, T_STRING, T_VARIABLE, T_OPEN_SQUARE_BRACKET, T_CLOSE_SQUARE_BRACKET, T_OPEN_CURLY_BRACKET, T_CLOSE_CURLY_BRACKET, T_OPEN_PARENTHESIS, T_CLOSE_PARENTHESIS,])) {
+            if (
+                in_array(
+                    $token['code'],
+                    [
+                    T_OBJECT_OPERATOR,
+                    T_CONSTANT_ENCAPSED_STRING,
+                    T_WHITESPACE,
+                    T_LINE,
+                    T_STRING,
+                    T_VARIABLE,
+                    T_OPEN_SQUARE_BRACKET,
+                    T_CLOSE_SQUARE_BRACKET,
+                    T_OPEN_CURLY_BRACKET,
+                    T_CLOSE_CURLY_BRACKET,
+                    T_OPEN_PARENTHESIS,
+                    T_CLOSE_PARENTHESIS,
+                    ]
+                )
+            ) {
                 continue;
             }
+
             return $i;
         }
+
         return $max;
     }
 
@@ -151,6 +213,7 @@ class AntiXssSniff implements Sniff
                 return $token;
             }
         }
+
         return null;
     }
 

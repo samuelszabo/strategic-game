@@ -69,7 +69,8 @@ class UsersController extends AppController
 
     public function logout()
     {
-        $this->setResponse($this->response->withExpiredCookie(new Cookie('user_id'))->withExpiredCookie(new Cookie('game_id')));
+        $this->setResponse($this->response->withExpiredCookie(new Cookie('user_id'))
+            ->withExpiredCookie(new Cookie('game_id')));
         $this->redirect('/');
     }
 }

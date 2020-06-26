@@ -38,8 +38,13 @@ class GamesController extends AppController
      */
     public function index()
     {
-        $games = $this->Games->find()->contain(['Users'])->where(['rounds_count' => count(Game::$tables)])->orderDesc('points')->limit(10);
-        $myGames = $this->Games->find()->contain(['Users'])->where(['user_id' => $this->user->id, 'rounds_count' => count(Game::$tables)])->orderDesc('points')->limit(10);
+        $games = $this->Games->find()
+            ->contain(['Users'])->where(['rounds_count' => count(Game::$tables)])->orderDesc('points')
+            ->limit(10);
+        $myGames = $this->Games->find()->contain(['Users'])->where([
+            'user_id' => $this->user->id,
+            'rounds_count' => count(Game::$tables),
+        ])->orderDesc('points')->limit(10);
 
         $this->set(compact('games', 'myGames'));
     }
@@ -73,8 +78,9 @@ class GamesController extends AppController
             }
             $game = $this->Games->patchEntity($game, $data);
             if ($this->Games->save($game)) {
-                $cookie = (new Cookie('game_id'))->withValue((string)$game->id)->withExpiry(new DateTime('+1 year'))->withSecure(false) //todo
-                ->withHttpOnly(true);
+                $cookie = (new Cookie('game_id'))->withValue((string)$game->id)
+                    ->withExpiry(new DateTime('+1 year'))->withSecure(false) //todo
+                    ->withHttpOnly(true);
                 $this->setResponse($this->response->withCookie($cookie));
 
                 $this->Flash->success(__('The game has been saved.'));

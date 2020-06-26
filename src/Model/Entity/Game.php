@@ -75,11 +75,13 @@ class Game extends Entity
 
     public function calculateEarns(): float
     {
-        return collection($this->rounds)->sumOf(fn(Round $round) => ($this->getLastNumber() - $round->number) * $round->getEarns());
+        return collection($this->rounds)
+            ->sumOf(fn(Round $round) => ($this->getLastNumber() - $round->number) * $round->getEarns());
     }
 
     public function calculateSatisfaction(): float
     {
-        return collection($this->rounds)->sumOf(fn(Round $round) => ($this->getLastNumber() - $round->number) * $round->getSatisfaction());
+        return collection($this->rounds)->sumOf(fn(Round $round
+        ) => ($this->getLastNumber() - $round->number) * $round->getSatisfaction());
     }
 }
