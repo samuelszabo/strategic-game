@@ -14,7 +14,6 @@ jobs:
       - name: Setup config
         run: |
           mv config/app_local.aws.php config/app_local.php
-          export VERSION_LABEL="date '+%y%m%d-%H%M'"
       - name: Generate deployment package
         run: zip deploy.zip -r * .[^.]* -x "vendor/*"
 
@@ -25,6 +24,6 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           application_name: StrategicGame2
           environment_name: StrategicGame2-env
-          version_label: ${{ env.VERSION_LABEL }}
+          version_label: date '+%y%m%d-%H%M'
           region: eu-central-1
           deployment_package: deploy.zip
