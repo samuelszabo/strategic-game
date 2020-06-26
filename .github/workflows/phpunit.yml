@@ -72,6 +72,7 @@ jobs:
       - name: Install Composer dependencies
         run: |
           composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+          composer run-script post-install-cmd --no-interaction
       - name: Run migration
         env:
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
