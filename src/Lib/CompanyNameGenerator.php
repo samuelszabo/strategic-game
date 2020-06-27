@@ -19,7 +19,7 @@ class CompanyNameGenerator
 
     /**
      * @param int $number
-     * @return string[]
+     * @return array<int, int|string>
      */
     public function generate($number = 1): array
     {
@@ -31,7 +31,7 @@ class CompanyNameGenerator
              * @phpstan-ignore-next-line
              */
             $name = $this->faker->companyName;
-                $names[] = $name;
+            $names[] = $name;
         }
 
         return (array)array_rand(array_flip($names), $number);

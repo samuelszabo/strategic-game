@@ -26,7 +26,6 @@ abstract class Idea
 
     public function isApplicable(Game $game): bool
     {
-
         if ($game->getBets($this) > 0) {
             return false;
         }

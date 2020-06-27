@@ -91,7 +91,7 @@ class Game extends Entity
         ) => ($this->getLastNumber() - $round->number) * $round->getSatisfaction());
     }
 
-    public function calculatePoints()
+    public function calculatePoints(): float
     {
         return $this->earns / 100 + $this->satisfactions * 100;
     }

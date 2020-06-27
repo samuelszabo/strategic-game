@@ -44,11 +44,13 @@
         "post-autoload-dump": "Cake\\Composer\\Installer\\PluginInstaller::postAutoloadDump",
         "check": [
             "@test",
-            "@cs-check"
+            "@cs-fix",
+            "@cs-check",
+            "@stan"
         ],
         "cs-check": "phpcs --colors -p  src/ tests/",
         "cs-fix": "phpcbf --colors -p src/ tests/",
-        "stan": "phpstan analyse src/",
+        "stan": "phpstan analyse -l max -c phpstan.max.neon src --memory-limit 3000M",
         "test": "phpunit --colors=always"
     },
     "prefer-stable": true,
