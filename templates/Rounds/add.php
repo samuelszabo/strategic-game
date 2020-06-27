@@ -23,7 +23,7 @@ $this->assign('title', $table->getTitle());
             <legend><?= __('Idey na tento kvartál') ?></legend>
             <?php
             $i = 0;
-            foreach ($table->getIdeas() as $idea) {
+            foreach ($table->getIdeas($game) as $idea) {
                 echo $this->element('idea', ['idea' => $idea]);
                 echo $this->Form->hidden('bets.' . $i . '.idea_name', ['value' => $idea->getName()]);
                 echo $this->Form->control('bets.' . $i . '.bet', ['options' => ['0.5' => '50%', '1' => '100%'], 'empty' => 'nie', 'label' => false]);

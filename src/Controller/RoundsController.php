@@ -7,6 +7,7 @@ use Cake\Event\EventInterface;
 use Cake\Http\Cookie\Cookie;
 use Cake\Http\Exception\UnauthorizedException;
 use Cake\Http\Response;
+use Cake\Utility\Hash;
 
 /**
  * Rounds Controller
@@ -66,6 +67,7 @@ class RoundsController extends AppController
     public function add(): ?Response
     {
         assert(!is_null($this->game));
+        $errors = [];
         $round = $this->Rounds->newEmptyEntity();
         if ($this->request->is('post')) {
             $round->game = $this->game;
@@ -74,9 +76,11 @@ class RoundsController extends AppController
             if ($this->Rounds->save($round)) {
                 return $this->redirect(['action' => 'view', $round->id]);
             }
-            $this->Flash->error(__('The round could not be saved. Please, try again.'));
+            foreach (Hash::flatten($round->getErrors()) as $error) {
+                $this->Flash->error($error);
+            }
         }
-        $this->set(compact('round'));
+        $this->set(compact('round', 'errors'));
 
         return null;
     }

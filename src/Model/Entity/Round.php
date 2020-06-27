@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use App\Ideas\Idea;
 use Cake\ORM\Entity;
 
 /**
@@ -59,5 +60,10 @@ class Round extends Entity
     public function getPositiveBets(): array
     {
         return collection($this->bets)->filter(fn(Bet $bet) => $bet->bet > 0)->toArray();
+    }
+
+    public function getBet(Idea $idea): ?Bet
+    {
+        return collection($this->bets)->filter(fn(Bet $bet) => $bet->idea_name === $idea->getName())->first();
     }
 }
