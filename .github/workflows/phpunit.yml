@@ -16,7 +16,7 @@ on:
       - '**'
 jobs:
   phpunit:
-    name: ${{ matrix.applications }} (PHP ${{ matrix.php-versions }})
+    name: phpunit (PHP ${{ matrix.php-versions }})
     runs-on: ubuntu-latest
     env:
       extensions: mbstring, xml, ctype, iconv, mysql, imagick, openssl, intl
