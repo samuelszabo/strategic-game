@@ -5,6 +5,9 @@
  * Note: It is not recommended to commit files with credentials such as app_local.php
  * into source code version control.
  */
+pr('local.config loaded');
+pr(env('DATABASE_TEST_URL', 'not found'));
+pr(env('DATABASE_TEST_URL', 'not found'));
 return [
     /*
      * Debug Level:
@@ -15,7 +18,7 @@ return [
      * Development Mode:
      * true: Errors and warnings shown.
      */
-    'debug' => filter_var(env('DEBUG', true), FILTER_VALIDATE_BOOLEAN),
+    'debug' => true,
 
     /*
      * Security and encryption configuration
