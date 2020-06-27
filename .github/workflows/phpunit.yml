@@ -71,9 +71,9 @@ jobs:
           key: ${{ runner.OS }}-build-${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
       - name: Install Composer dependencies
         run: |
+          mv config/app_local.test.php config/app_local.php
           composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
           chmod +x bin/cake
-          mv config/app_local.test.php config/app_local.php
       - name: Run migration
         env:
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
