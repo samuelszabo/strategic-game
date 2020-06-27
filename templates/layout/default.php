@@ -6,7 +6,6 @@
  */
 
 use App\Model\Entity\Game;
-use App\Model\Entity\Round;
 use App\Model\Entity\User;
 use App\View\AppView;
 
@@ -17,8 +16,7 @@ use App\View\AppView;
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
-        StrategicGame:
-        <?= $this->fetch('title') ?>
+        <?= $this->fetch('title') ?> | StrategicGame
     </title>
     <?= $this->Html->meta('icon') ?>
 

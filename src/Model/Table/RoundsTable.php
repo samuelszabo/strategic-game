@@ -85,7 +85,7 @@ class RoundsTable extends Table
         $game->rounds_count = count($game->rounds);
         $game->earns = $game->calculateEarns();
         $game->satisfactions = $game->calculateSatisfaction();
-        $game->points = 0;
+        $game->points = $game->calculatePoints();
         $this->Games->saveOrFail($game);
     }
 
@@ -111,7 +111,7 @@ class RoundsTable extends Table
             'ruleName',
             [
                 'errorField' => 'bets',
-                'message' => 'Pridelená kapacita je vyššia ako dostupná',
+                'message' => 'Pridelil si viac prostriedkov ako máš k dispozícii.',
             ]
         );
 

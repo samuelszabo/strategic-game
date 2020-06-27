@@ -23,12 +23,17 @@ class CompanyNameGenerator
      */
     public function generate($number = 1): array
     {
+        $attempts = $number * 30;
         $names = [];
-        for ($i = 1; $i <= $number; $i++) {
-            /** @phpstan-ignore-next-line */
-            $names[] = $this->faker->companyName;
+        for ($i = 1; $i <= $attempts; $i++) {
+            /**
+             * @var string $name
+             * @phpstan-ignore-next-line
+             */
+            $name = $this->faker->companyName;
+                $names[] = $name;
         }
 
-        return $names;
+        return (array)array_rand(array_flip($names), $number);
     }
 }

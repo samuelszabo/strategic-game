@@ -3,11 +3,12 @@ declare(strict_types=1);
 
 namespace App\Tables;
 
-use App\Ideas\Idea1;
-use App\Ideas\Idea2;
-use App\Ideas\Idea3;
+use App\Ideas\CzechRepublic;
+use App\Ideas\Hungary;
+use App\Ideas\Preview3D;
+use App\Ideas\Recommender;
 
-class Table2 implements TablesInterface
+class Table2021Q3 extends Table
 {
     public function getTitle(): string
     {
@@ -22,12 +23,13 @@ class Table2 implements TablesInterface
     /**
      * @return \App\Ideas\Idea[]
      */
-    public function getIdeas(): array
+    public function availableIdeas(): array
     {
         return [
-            new Idea1(),
-            new Idea2(),
-            new Idea3(),
+            new Preview3D(),
+            new Recommender(),
+            new Hungary(),
+            new CzechRepublic(),
         ];
     }
 }

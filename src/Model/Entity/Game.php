@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
-use App\Tables\Table1;
-use App\Tables\Table2;
+use App\Ideas\Idea;
+use App\Tables\Table2021Q1;
+use App\Tables\Table2021Q2;
+use App\Tables\Table2021Q3;
 use App\Tables\TablesInterface;
 use Cake\ORM\Entity;
 
@@ -52,8 +54,9 @@ class Game extends Entity
      * @var string[]
      */
     public static array $tables = [
-        Table1::class,
-        Table2::class,
+        Table2021Q1::class,
+        Table2021Q2::class,
+        Table2021Q3::class,
     ];
 
     public function getCapacity(): int
@@ -86,5 +89,15 @@ class Game extends Entity
     {
         return collection($this->rounds)->sumOf(fn(Round $round
         ) => ($this->getLastNumber() - $round->number) * $round->getSatisfaction());
+    }
+
+    public function calculatePoints()
+    {
+        return $this->earns / 100 + $this->satisfactions * 100;
+    }
+
+    public function getBets(Idea $idea): float
+    {
+        return collection($this->rounds)->map(fn(Round $round) => $round->getBet($idea))->sumOf('bet');
     }
 }

@@ -59,7 +59,7 @@ class GamesController extends AppController
      */
     public function view($id = null): void
     {
-        $game = $this->Games->get($id, ['contain' => ['Users', 'Rounds'],]);
+        $game = $this->Games->get($id, ['contain' => ['Users', 'Rounds.Bets'],]);
 
         $this->set(compact('game'));
     }
@@ -83,8 +83,6 @@ class GamesController extends AppController
                     ->withExpiry(new DateTime('+1 year'))->withSecure(false) //todo
                     ->withHttpOnly(true);
                 $this->setResponse($this->response->withCookie($cookie));
-
-                $this->Flash->success(__('The game has been saved.'));
 
                 return $this->redirect(['controller' => 'Rounds', 'action' => 'index']);
             }

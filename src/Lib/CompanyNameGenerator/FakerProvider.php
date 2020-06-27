@@ -174,22 +174,15 @@ class FakerProvider extends Base
         'Caffe',
         'Caffeine',
         'Cake',
-        'Carve',
         'Caviar',
         'Chef',
         'Chocolate',
         'Chop',
         'Citrus',
-        'Cocoa',
         'Compote',
-        'Cook',
-        'Cooker',
-        'Cookery',
         'Cool',
         'Core',
-        'Coulis',
         'Course',
-        'Crouton',
         'Cuisine',
         'Dash',
         'Dessert',
@@ -198,28 +191,16 @@ class FakerProvider extends Base
         'Dress',
         'Entree',
         'Espresso',
-        'Extracts',
-        'Fajitas',
-        'Fibers',
         'Fold',
-        'Formula',
         'Fruit',
-        'Fumet',
-        'Fusion',
-        'Gastronomy',
         'Glucose',
         'Gourmet',
-        'Grains',
-        'Gratin',
         'Greens',
         'Guacamole',
         'Herbs',
         'Honey',
         'Hybrid',
         'Ice',
-        'Icing',
-        'Immersion',
-        'Induction',
         'Instant',
         'Jasmine',
         'Jelly',
@@ -231,26 +212,19 @@ class FakerProvider extends Base
         'Lemon',
         'Lime',
         'Liqueur',
-        'Madeleine',
         'Mango',
         'Marinate',
         'Melon',
         'Mill',
         'Mince',
-        'Mirepoix',
         'Mix',
         'Mousse',
         'Muffin',
-        'Mull',
-        'Munster',
         'Nectar',
         'Nut',
         'Olive',
         'Organic',
-        'Organic',
         'Pan',
-        'Papillote',
-        'Pare',
         'Pasta',
         'Pate',
         'Peanut',
@@ -259,7 +233,6 @@ class FakerProvider extends Base
         'Picante',
         'Pie',
         'Pigment',
-        'Pinot',
         'Plate',
         'Plum',
         'Pod',
@@ -317,14 +290,130 @@ class FakerProvider extends Base
         'Zest',
     ];
 
+    private static $epithetTerms = [
+        'Nudná',
+        'Veselá',
+        'Hravá',
+        'Voňavá',
+        'Dnešná',
+        'Iná',
+        'Nová',
+        'Stará',
+    ];
+    private static $nameEpithetTerms = [
+        'Jožova',
+        'Majkina',
+        'Miškina',
+        'Jankina',
+        'Peťova',
+        'Moja',
+        'Čierna',
+        'Biela',
+    ];
+    private static $femaleSubjectTerms = [
+        'Pláž',
+        'Vec',
+        'Zábava',
+        'Doska',
+    ];
+    private static $maleSubjectTerms = [
+        'Piesok',
+        'Pohár',
+        'Slnečník',
+        'Banán',
+        'Kvet',
+    ];
+    private static $otherSubjectTerms = [
+        'Drevo',
+        'Hrozno',
+    ];
     /**
      * @var array|string[]
      */
     protected static array $companyNameFormats = [
-        '{{techTerm}}{{culinaryTerm}}',
-        '{{techTerm}}{{techTerm}}',
-        '{{culinaryTerm}}{{techTerm}}',
+//        '{{techTerm}}{{culinaryTerm}}',
+//        '{{techTerm}}{{techTerm}}',
+        '{{culinaryTerm}}{{culinaryTerm}}',
+        '{{femaleEpithetTerm}}{{femaleSubjectTerm}}',
+        '{{maleEpithetTerm}}{{maleSubjectTerm}}',
+//        '{{otherEpithetTerm}}{{otherSubjectTerm}}',
+
+        '{{femaleNameEpithetTerm}}{{femaleSubjectTerm}}',
+        '{{maleNameEpithetTerm}}{{maleSubjectTerm}}',
+  //      '{{otherNameEpithetTerm}}{{otherSubjectTerm}}',
     ];
+
+    /**
+     * @return mixed|null
+     */
+    public static function femaleEpithetTerm()
+    {
+        return mb_substr(static::randomElement(static::$epithetTerms), 0, -1) . 'á';
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public static function maleEpithetTerm()
+    {
+        return mb_substr(static::randomElement(static::$epithetTerms), 0, -1) . 'ý';
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public static function otherEpithetTerm()
+    {
+        return mb_substr(static::randomElement(static::$epithetTerms), 0, -1) . 'é';
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public static function femaleNameEpithetTerm()
+    {
+        return mb_substr(static::randomElement(static::$nameEpithetTerms), 0, -1) . 'a';
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public static function maleNameEpithetTerm()
+    {
+        return mb_substr(static::randomElement(static::$nameEpithetTerms), 0, -1) . '';
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public static function otherNameEpithetTerm()
+    {
+        return mb_substr(static::randomElement(static::$nameEpithetTerms), 0, -1) . 'e';
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public static function maleSubjectTerm()
+    {
+        return static::randomElement(static::$maleSubjectTerms);
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public static function femaleSubjectTerm()
+    {
+        return static::randomElement(static::$femaleSubjectTerms);
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public static function otherSubjectTerm()
+    {
+        return static::randomElement(static::$otherSubjectTerms);
+    }
 
     /**
      * @return mixed|null

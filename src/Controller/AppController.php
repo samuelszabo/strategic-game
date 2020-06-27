@@ -87,6 +87,7 @@ class AppController extends Controller
     private function getUser(): ?User
     {
         $userId = $this->getRequest()->getCookie('user_id');
+        assert(!is_array($userId));
         if (!is_null($userId)) {
             return $this->Users->get((int)$userId);
         }
@@ -100,6 +101,7 @@ class AppController extends Controller
     private function getGame(): ?Game
     {
         $gameId = $this->getRequest()->getCookie('game_id');
+        assert(!is_array($gameId));
         if (!is_null($gameId)) {
             return $this->Games->get((int)$gameId, ['contain' => ['Rounds.Bets']]);
         }

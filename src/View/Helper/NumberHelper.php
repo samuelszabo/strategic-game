@@ -42,4 +42,9 @@ class NumberHelper extends \Cake\View\Helper\NumberHelper
 
         return $percentage;
     }
+
+    public function points(?float $points)
+    {
+        return $this->format($points, ['places' => 0, 'precision' => 0]);
+    }
 }

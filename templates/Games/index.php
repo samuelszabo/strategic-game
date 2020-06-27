@@ -21,10 +21,10 @@
             <tbody>
             <?php foreach ($games as $i => $game): ?>
                 <tr>
-                    <td><?= $i+1 ?>.</td>
+                    <td><?= $this->Html->link($i + 1, ['action' => 'view', $game->id]) ?>.</td>
                     <td><?= $game->has('user') ? $game->user->name : '' ?>
                         <small><?= h($game->name) ?></small></td>
-                    <td><?= $game->points ?> </td>
+                    <td><?= $this->Number->points($game->points) ?> </td>
                     <td><?= $this->Number->currency($game->earns) ?> </td>
                     <td><?= $this->Number->toPercentage($game->satisfactions) ?> </td>
                 </tr>
