@@ -71,16 +71,10 @@ jobs:
           key: ${{ runner.OS }}-build-${{ matrix.php-versions }}-${{ hashFiles('**/composer.lock') }}
       - name: Install Composer dependencies
         run: |
+          mv config/app_local.test.php config/app_local.php
           composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
-          chmod +x bin/cake
-      - name: Run migration
-        env:
-          MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-        run: |
-          bin/cake migrations migrate
-          bin/cake migrations status
       - name: Run PHPUnit
         env:
           MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
         run: |
-          vendor/bin/phpunit  --configuration phpunit.xml --log-junit tmp/testsuites.xml
+          vendor/bin/phpunit --config phpunit.xml.dist --log-junit tmp/testsuites.xml
