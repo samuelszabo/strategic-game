@@ -73,12 +73,14 @@ class RoundsTableTest extends TestCase
 
         $this->Rounds->save($round);
         $this->assertTrue($round->isNew());
-        $this->assertSame([
+        $this->assertSame(
+            [
             'bets' => [
                 'ruleName' => 'Pridelil si viac prostriedkov ako máš k dispozícii.',
             ],
-        ],
-            $round->getErrors());
+            ],
+            $round->getErrors()
+        );
     }
 
     public function testCounterCache(): void

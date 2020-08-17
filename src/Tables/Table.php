@@ -1,8 +1,7 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\Tables;
-
 
 use App\Model\Entity\Game;
 

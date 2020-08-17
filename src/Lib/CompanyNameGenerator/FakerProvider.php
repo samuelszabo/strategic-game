@@ -290,6 +290,9 @@ class FakerProvider extends Base
         'Zest',
     ];
 
+    /**
+     * @var string[]
+     */
     private static $epithetTerms = [
         'Nudná',
         'Veselá',
@@ -300,6 +303,10 @@ class FakerProvider extends Base
         'Nová',
         'Stará',
     ];
+
+    /**
+     * @var string[]
+     */
     private static $nameEpithetTerms = [
         'Jožova',
         'Majkina',
@@ -310,12 +317,20 @@ class FakerProvider extends Base
         'Čierna',
         'Biela',
     ];
+
+    /**
+     * @var string[]
+     */
     private static $femaleSubjectTerms = [
         'Pláž',
         'Vec',
         'Zábava',
         'Doska',
     ];
+
+    /**
+     * @var string[]
+     */
     private static $maleSubjectTerms = [
         'Piesok',
         'Pohár',
@@ -323,10 +338,15 @@ class FakerProvider extends Base
         'Banán',
         'Kvet',
     ];
+
+    /**
+     * @var string[]
+     */
     private static $otherSubjectTerms = [
         'Drevo',
         'Hrozno',
     ];
+
     /**
      * @var array|string[]
      */
@@ -340,7 +360,7 @@ class FakerProvider extends Base
 
         '{{femaleNameEpithetTerm}}{{femaleSubjectTerm}}',
         '{{maleNameEpithetTerm}}{{maleSubjectTerm}}',
-  //      '{{otherNameEpithetTerm}}{{otherSubjectTerm}}',
+        //      '{{otherNameEpithetTerm}}{{otherSubjectTerm}}',
     ];
 
     /**
