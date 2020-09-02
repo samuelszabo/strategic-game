@@ -9,7 +9,7 @@ class CzechRepublic extends Idea
 {
     public string $title = 'Rozšírenie do Česka';
     public string $intro = 'Maďarsko nevyšlo, no obchodníci ťa stále tlačia do rozšírenia do ČR, ' .
-    'tento krát pod vlastnou réžiou, bez obchodného partnera.';
+    'tento krát pod vlastnou réžiou, bez obchodného partnera. Systém už máme pripravený vďaka Maďarsku.';
 
     public float $satisfaction = -0.1;
     public float $earns = 5;
