@@ -16,9 +16,9 @@ $this->assign('title', $table->getTitle());
         <?php
         echo $this->Form->hidden('game_id', ['value' => $game->id]);
         echo $this->Form->hidden('number', ['value' => count($game->rounds) + 1]);
-
-
         ?>
+
+        <hr>
         <fieldset>
             <legend><?= __('Idey na tento kvartál') ?></legend>
             <?php
@@ -26,12 +26,14 @@ $this->assign('title', $table->getTitle());
             foreach ($table->getIdeas($game) as $idea) {
                 echo $this->element('idea', ['idea' => $idea]);
                 echo $this->Form->hidden('bets.' . $i . '.idea_name', ['value' => $idea->getName()]);
-                echo $this->Form->control('bets.' . $i . '.bet', ['options' => ['0.5' => '50%', '1' => '100%'], 'empty' => 'nie', 'label' => false]);
+                echo $this->Form->control('bets.' . $i . '.bet', ['options' => ['0.5' => '50%', '1' => '100%'], 'empty' => 'nie', 'label' => 'Koľko času má Projektový tím venovať tejto idey?']);
                 $i++;
+                echo '<hr>';
             }
 
             ?>
         </fieldset>
+
         <?= $this->Form->button(__('Submit')) ?>
         <?= $this->Form->end() ?>
     </div>

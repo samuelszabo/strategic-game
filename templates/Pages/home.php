@@ -22,7 +22,7 @@ $this->assign('title', 'Strategic Game');
         <div class="content">
             <div class="row">
                 <div class="column column-50 column-offset-25">
-                    <h1>Vitaj 2</h1>
+                    <h1>Vitaj</h1>
                     <p>Tu si vyskúšaš č je zodpovednosť pri strategickom plánovaní.</p>
                     <p>
                         <?= $this->Html->link(__('New Game'), ['controller' => 'Rounds', 'action' => 'add'],
