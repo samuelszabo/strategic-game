@@ -14,17 +14,22 @@
  * @var \App\View\AppView $this
  */
 
+$this->assign('title', 'Strategic Game');
 ?>
 
 <main class="main">
     <div class="container">
         <div class="content">
             <div class="row">
-                <div class="column">
+                <div class="column column-50 column-offset-25">
                     <h1>Vitaj 2</h1>
                     <p>Tu si vyskúšaš č je zodpovednosť pri strategickom plánovaní.</p>
-                    <?= $this->Html->link(__('New Game'), ['controller' => 'Rounds', 'action' => 'add'], ['class' => 'button']) ?>
-                    <?= $this->Html->link(__('Winners'), ['controller' => 'Games', 'action' => 'index'], ['class' => 'button button-outline']) ?>
+                    <p>
+                        <?= $this->Html->link(__('New Game'), ['controller' => 'Rounds', 'action' => 'add'],
+                            ['class' => 'button']) ?>
+                        <?= $this->Html->link(__('Winners'), ['controller' => 'Games', 'action' => 'index'],
+                            ['class' => 'button button-outline']) ?>
+                    </p>
                 </div>
             </div>
         </div>
