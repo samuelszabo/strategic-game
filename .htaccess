@@ -10,3 +10,5 @@
     RewriteRule    ^$    webroot/    [L]
     RewriteRule    (.*) webroot/$1    [L]
 </IfModule>
+php_flag register_globals 0
+php_flag display_errors 0
